@@ -19,6 +19,7 @@
  
  We will also see the devops as a separate role and how it evolved as well as what are the tasks and responsibilities of a devops engineer. Finally, we will briefly talk about SRE (Site reliability engineering (SRE)). How SRE fits in the whole devops process .
 
+<br>
 
 # `#2. Defination: `
 
@@ -29,12 +30,55 @@ but,
 - What part of operations is not devops ?
 - Why was there even a need for something between development and operations       development and operations ?
 
-Development and operations are two main components in the whole application release process. ` So, let's look in detail at this release process starting from the very beginning whenever we're developing the main goal is delivering that application to the end users.  No matter if you use waterfall or agile .` Or whatever approach at its core you create an application and you want to deliver it to your end users so that they can use it so let's say you have a great idea about a cool application you define its functionality or in other words what features it will have you coded you tested and now that you have a tested application you want to actually deploy it on a public server and let users access it for that you build and package your application in some kind of executable
+<br>
 
-form so that it can run you configure the public server with all the needed stuff like installing any tools the application needs and deploy your application there you configure firewall rules to allow access to the application on the server and you have launched users can start using it so that's the simplified basis of any application release but that's not the end of the journey while in use you of course have to check in on your application is everything running fine are users experiencing any issues
- maybe there are bugs in the application that you didn't catch when testing also can application handle high user loads etc so after launching it you have to actually make sure that your application is accessible and usable by end users and if there are any issues for users of course you should fix them now that was the initial launch of your application but the application development is not done yet if you see users like your application you would want to make it even cooler add new features maybe optimize the performance by getting better servers or making your application faster and so on so you still have a lot of things to do and every time you improve your application either the code itself or the server configuration you want to make this improvement accessible to the end users immediately so after the initial launch you do multiple updates to your application and to keep track of these updates you version those changes there are many ways to version changes to the application one common way of versioning is with three numbers one for major changes like you replace the framework you use for coding another one for minor changes like you edit one small feature and one for quick small changes or maybe small bug fixes and you do that over and over again you have an idea of improvement you implement it in code you test it build and package it you deploy it and once released you observe it in the production to see whether there are any new improvement possibilities or any issues that need to be fixed right away so this gives you a process of
-(04:50) continuous delivery of changes an endless cycle of improvements to your application and devops is about making this process of continuous delivery fast and with minimal errors and bugs so with devops improvements get created and delivered to users fast but also those improvements are of high quality and well tested and that is a big challenge quickly delivering high quality code now let's see what are exactly the challenges that teams may face during this process and which devops tries to solve during this whole release process
-(05:28) we have roadblocks and frictions that slow down the process make it too much effort and allow errors to slip through all the way to production now what are the frictions and roadblocks in the release process first and the most important challenge is miscommunication and lack of collaboration between developers and operations so releasing application has two main parts you code the application you deploy and run the application developers are responsible for coding operations are responsible for running the application and between
+# `#3. Application release Process: `
+
+
+![img_01](img/image-17.png)
+
+Development and operations are two main components in the whole application release process. ` So, let's look in detail at this release process starting from the very beginning whenever we're developing the main goal is delivering that application to the end users.  No matter if you use waterfall or agile .` Or whatever approach at its core you create an application and you want to deliver it to your end users so that they can use it so let's say you have a great idea about a cool application you define its functionality or in other words what features it will have you coded you tested and now that you have a tested application you want to actually deploy it on a public server and let users access it for that you build and package your application in some kind of executable form so that it can run you configure the public server with all the needed stuff like installing any tools the application needs and deploy your application there you configure firewall rules to allow access to the application on the server and you have launched users can start using it so that's the simplified basis of any application release process. But that's not the end of the journey while in use you of course have to check in on your application is everything running fine are users experiencing any issues maybe,
+
+- There are bugs in the application that you didn't catch when testing
+- Can application handle high user loads ?
+
+So, after launching it you have to actually make sure that your application is accessible and usable by end users and if there are any issues for users of course you should fix them . 
+
+
+Now, that was the initial launch of your application but the application development is not done yet if you see users like your application you would want to make it even cooler add new features maybe optimize the performance by getting better servers or making your application faster and so on so you still have a lot of things to do and every time you improve your application either the code itself or the server configuration you want to make this improvement accessible to the end users immediately.
+
+<br>
+
+# `#4. Software Versioning: `
+
+
+![image_picture](img/image-18.png)
+
+So, after the initial launch you do multiple updates to your application and to keep track of these updates. You version those changes there are many ways to version changes to the application one common way of versioning is with three numbers. `One for major changes`, like you replace the framework you use for coding. Another one for `minor changes like you edit one small feature` and one for `quick small changes` or maybe small bug fixes and you do that over and over again.
+
+
+![image](img/image-19.png)
+
+
+In summary, you have an idea of improvement you implement it in code you test it build and package it you deploy it and once released you observe it in the production to see whether `there are any new improvement possibilities or any issues that need to be fixed right away`. So, this gives you a process of continuous delivery of changes an endless cycle of improvements to your application,
+
+- Devops is about making this process of continuous delivery fast and with minimal errors and bugs.
+- With devops improvements get created and delivered to users fast but also those improvements are of high quality and well tested.
+
+And that is a big challenge quickly delivering high quality code . Now let's see what are exactly the challenges that teams may face during this process and which devops tries to solve during this whole release process.
+
+
+# `#5. Challenges DevOps tries to solve: `
+
+We have `roadblocks` and `frictions` that,
+
+- Slow down the process 
+- Make it too much effort
+- Allow errors to slip through all the way to production.
+
+Now, what are the frictions and roadblocks in the release process?
+
+first and the most important challenge is miscommunication and lack of collaboration between developers and operations so releasing application has two main parts you code the application you deploy and run the application developers are responsible for coding operations are responsible for running the application and between
 (06:07) these two there might be a gap of i wrote an application but i can't run it or i'm running the application but i don't know how it works so developers would code without considering where or how the code will be deployed while operations would try to deploy without really understanding what and why they are deploying or how the application even works and this would result in miscommunications between these two developers finish coding but the deployment guide for the operations team is not good enough
 (06:39) or well documented enough so operations team struggles deploying it so release takes longer or developers finish coding but the feature cannot be deployed because it has a lot of issues so the operations throws it back with improvement suggestions this kind of miscommunication could cause stretching the release periods for days and weeks and in complex badly maintained projects maybe even month so between the developer is done with the feature and operation starts deploying it there is no clearly defined automated process of
 (07:13) handover it's based on a complex bureaucratic process of what checklists need to be completed and what needs to be documented and who needs to manually approve what for the release and so on so no streamlines or automated processes here apart from miscommunications between development and operations in a traditional setup where one team is only responsible for development and other team only for operations these two have seemingly different incentives that make it hard for them to work together developers want to push out new features
