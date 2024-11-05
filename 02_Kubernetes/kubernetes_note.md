@@ -60,8 +60,20 @@ So to go through this chronologically the rise of microservices cost increased u
 
 So, what those orchestration tools like kubernetes do is actually guarantee?
 
-- One is high availability in simple words, High availability means that the application has no downtime. So, it's always accessible by the users a second one is scalability which means that application has high performance it loads fast and the users have a very high response rates from the application and the third one is disaster recovery which basically means that if an infrastructure has some problems like data is lost or the servers explode or something bad happens with the service center the infrastructure has to have
-(05:00) some kind of mechanism to pick up the data and to restore it to the latest state so that application doesn't actually lose any data and the containerized application can run from the latest state after the recovery and all of these are functionalities that container orchestration Technologies like kubernetes offer so in this video I want to give you an overview of the most basic fundamental components of kubernetes but just enough to actually get you started using kubernetes in practice either as a devops engineer or a software developer
+- One is high availability in simple words, High availability means that the application has no downtime. So, it's always accessible by the users.
+
+- Second one is scalability, which means that application has high performance it loads fast and the users have a very high response rates from the application.
+
+- Third one is disaster recovery which basically means that if an infrastructure has some problems like data is lost or the servers explode or something bad happens with the service center the infrastructure has to have
+(05:00) some kind of mechanism to pick up the data and to restore it to the latest state so that application doesn't actually lose any data and the containerized application can run from the latest state after the recovery.
+
+and all of these are functionalities that container orchestration Technologies like kubernetes offer.
+
+<br>
+
+# `# 2. kubernetes components:  `
+
+So in this video I want to give you an overview of the most basic fundamental components of kubernetes but just enough to actually get you started using kubernetes in practice either as a devops engineer or a software developer
 (05:39) now kubernetes has tons of components but most of the time you're going to be working with just a handful of them so I'm gonna build a case of a simple JavaScript application with a simple database and I'm going to show you step by step how each component of kubernetes actually helps you to deploy your application and what is the role of each of those components so let's start with the basic setup of a worker node or in kubernetes terms a node which is a simple server a physical or virtual machine and the basic
 (06:19) component or the smallest unit of kubernetes is a pod so what pod is is basically an abstraction over a container so if you're familiar with Docker containers or container images so basically what pod does is it creates this running environment or a layer on top of the container and the reason is because kubernetes wants to abstract away the container runtime or container Technologies so that you can replace them if you want to and also because you don't have to directly work with Docker whatever container technology you use in
 (06:58) a kubernetes so you only interact with the kubernetes layer so we have an application pod which is our own application and that will maybe use a data database pod with its own container and this is also an important concept here pot is usually meant to run one application container inside of it you can run multiple containers inside one pod but usually it's only the case if you have one main application container and a helper container or some side service that has to run inside of that pod and as you say this is nothing
