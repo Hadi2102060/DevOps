@@ -142,25 +142,56 @@ Key points include:
 - Start Docker, and you’ll see its icon in the menu bar. From there, you can view the status and manage settings.
 **Windows Installation**:
 
--Docker works natively on Windows 10 and above. For older versions, use Docker Toolbox.
-Multiple User Accounts: On Mac, if you have multiple user accounts, you might face errors running Docker on multiple accounts at the same time. Switch accounts only after quitting Docker on the first account.
+- Docker works natively on Windows 10 and above. For older versions, use Docker Toolbox.
+- Multiple User Accounts: On Mac, if you have multiple user accounts, you might face errors running Docker on multiple accounts at the same time. Switch accounts only after quitting Docker on the first account.
 
-This video offers step-by-step guidance for installing Docker on different systems, with tips to avoid common issues.
+This  offers step-by-step guidance for installing Docker on different systems, with tips to avoid common issues.
+
+# Windows Installation 
+
+## To install Docker on Windows:
+
+**Check Requirements**:
+
+ 1. Make sure your Windows version is compatible with Docker.
+ 2. Ensure virtualization is enabled. You can check this by opening Task Manager, going to the Performance tab, selecting CPU, and looking for the virtualization status.
+Download and Install:
+
+**Download and Install**:
+
+ - Download Docker for Windows from the “Stable” channel.
+- Run the installer and follow the steps in the installation wizard.
+**Start Docker**:
+
+**After installation**, search for the Docker app in Windows, click on it to start, and you’ll see the Docker whale icon appear, indicating that Docker is running.
+  And that’s it—Docker is now installed and ready to use on your Windows machine.
 
 
- so let's see how to install Ducker for Windows the first step as I mentioned before is to go to the before you install section and to see that your operating system and your computer meets
-(30:33) all the criteria to run Docker natively so if you're installing Docker for the first time don't worry about most of these parts like Docker toolbox and Docker machine there are two things that are important one is to double check that your windows version is compatible for Docker and the second one is to have virtualization enabled virtualization is by default always enable abled um other than you manually disabled it so if you're unsure then you can check it by going to the task manager performance CPU Tab and
-(31:09) here you can see the status of the virtualization so once you have checked that and made sure that these two prerequisites are met then actually you can scroll up and download the windows installer for from the stable Channel once they install installer is downloaded you can just click on it and follow the installation wizard to install Docker for Windows once the installation is completed you have to explicitly start Docker because it's not going to start automatically so for that you can just go and search for the
-(31:47) docker for Windows app on your windows just click on it and you will see the docker whale icon um starting and if you click on that icon you can actually see the status that says stalker is now up and running so this is basically it for the installation now let's see how to install Docker on different Linux distributions and this is where things get a little bit more complicated so first of all you see that in this menu on the on the left you see that for different Linux distributions the installation steps will differ but also
-(32:28) for example if we just click on auntu for the guide you can see that in the prerequisites section there is also differentiation between the versions of the same Linux distribution and there may be some even more complicated scenarios where the combination of the version of the distribution and the architecture it's running in um also makes some difference into how to set up Docker on that specific environment because of that I can't go through a Docker installation process of every Linux environment because there are just
-(33:05) too many combinations so instead what we'll do is just go through a general overview of the steps and configuration process to get Docker running on your Linux environment and you can just adjust it then for your specific setup so these are some general steps to follow in order to install Docker on your Linux Linux environment first of all all you have to go through the operating system requirements part on the relevant Linux distribution um that applies for you a second step in the documentation to is to uninstall old
-(33:41) versions however if it's the first time you installing Docker then you don't have to worry about that you also don't have to worry about the supported storage drivers and you can skip ahead to the part of installing Docker Community Edition so for any Linux distribution here the steps will be or the options for installing Docker will be the same so first option is basically to set up a repository and download the docker from and install it from the docker repository um the second option is to install the packages manually however I
-(34:21) wouldn't recommend it and I think the documentation doesn't recommend it either because then you'll have to do a lot of steps of the installation and the maintenance of the versions manually so I wouldn't do that the third one is just for the testing purposes it may be enough for the development purposes as well but I would still not do it which is basically just downloading some automated scripts that will install and setup Docker on your Linux environment however again I wouldn't go with it I
-(34:53) would actually just do the first option which is just download Lo in the docker from the repository so in order to install Docker using the first option which is downloading it from the docker repositories you have two main steps so the first one is to set up the repository uh which differs a little bit depending on which distribution you have and then install the docker CE from that repository so from abunto and Debian the steps for setting up the repository are generally just updating your app package then setting up an https connection with
-(35:36) the repository and adding the docker's official gpg key which only aono and dbn need you don't have to do this um steps for SOS and Fedora they just have to install the required packages and the last step uh for setting up the repository is basically setting up the stable repository of Docker which we saw previously on the overview that there are two channels which is a stable and Edge here you always have to set up the stable repository optionally you can also set up the edge repository but I'll
-(36:16) just do uh stable this time and here also something to notice depending on architecture you have to actually set it or you have to set that as a parameter when you set up the repository so if you have for example a different architecture you can use those steps to display the correct command for it and um I guess that applies to other Linux distributions as well like for example here you also have the second tab where you see a separate command for it so these steps should actually um set up the repository so that as a Next Step
-(36:54) you can then install the docker C from those repositories so installing Docker from the setup repository is actually pretty straightforward the steps are same for or similar to all the distributions basically just update the app package and then you just say install Docker CE so this command will just download the latest Docker version if you want to install a specific one which you will need to do in a production environment then you can just uh provide a version like like this to just say Docker minus C equals some specific versions and
-(37:34) using this command you can actually look up what versions are available in that repository that you just and with this command actually Docker will be installed um on your Linux environment and then you can just verify using PSE sudo Docker run hello world which is this demo image of Docker you can verify that Docker is running and this will start hello world Docker container on your environment so as I mentioned previously for environments um that do not support running Docker natively there is an workaround which is called Docker
+#  Docker Installation for Linux
+
+- **Check Requirements**: First, review the specific operating system and hardware requirements for your Linux distribution to make sure it can run Docker.
+
+- **Uninstall Old Versions**: If you’ve installed Docker before, remove old versions (if it’s your first time, skip this step).
+
+- **Install Docker from Repository (Recommended)**:
+
+**Set Up Docker Repository**: The setup differs slightly for each distribution. Generally:
+  1. Update your package manager.
+  2. Set up a secure HTTPS connection to Docker’s official repository.
+  3. Add Docker’s GPG key (for Ubuntu/Debian).
+  4. Enable the stable Docker repository (Edge is optional but typically not recommended for stability).
+**Install Docker**: Once the repository is ready, update your package manager and install Docker CE (Community Edition) using a single command.
+**Verify Installation**: After installation, run a quick test using:
+
+## Copy code
+**sudo docker run hello-world**
+This command downloads and runs a simple Docker image to confirm everything is working.
+
+These steps give you a stable Docker setup on Linux, ready for running containers.
+
+# Docker ToolBox
+
+so as I mentioned previously for environments um that do not support running Docker natively there is an workaround which is called Docker
 (38:17) toolbox so Docker toolbox is basically an installer for Docker environment setup on those systems so this is how to install uh Docker toolbox on your Mac um this is the whole package that comes with the installation of Docker toolbox which is basically the docker command line Docker machine Docker compose basically all the packages that we saw in the native installation and in on top of that you also get the Oracle VM virtual box so in order to install the docker toolbox it's actually pretty straightforward on this
 (38:54) website you can go to the toolbox releases where we have all the leas of latest releases you just take the uh latest release and here you see two assets this one is for Windows obviously and you just download the package for mac and once it's downloaded you just click on it and go through the installation wizard leave all the options by default as they are do not change anything and after the installation you can just validate that the installation is successful and you can actually run Docker so so after
 (39:28) seeing the installation was successful screen just go and look up in your launch pad dock quick start terminal and once you open it you should be able to run uh Docker commands and you can just try Docker run hello world which should just start up or bring up um this hello world Docker container on your environment so now let's see how to install Docker toolbox on Windows here see that you get the whole package of Docker Technologies with a toolbox which are basically the same package which you get on the uh Native Docker installation
