@@ -124,7 +124,7 @@ iii) nginx:latest হচ্ছে, version নাম ।
 
 **first:**
 ```bash
-kubectl expose deployment my-nginx --port=80 --type=LoadBalancer 
+kubectl expose deployment my-nginx --type=LoadBalancer --port=3000
 ```
 
 **second:**
