@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-         My first node js for kubernetes
+         My first node js for kubernetes:version02
         </p>
         <a
           className="App-link"
