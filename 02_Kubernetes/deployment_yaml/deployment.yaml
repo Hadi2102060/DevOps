@@ -1,0 +1,27 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # Unique key of the Deployment instance
+  name:  my-express-demo
+spec:
+  # 3 Pods should exist at all times.
+  replicas: 1
+  selector:
+    matchLabels:
+      app: express
+  template:
+    metadata:
+      labels:
+        # Apply this label to pods and default
+        # the Deployment label selector to this value
+        app: express
+    spec:
+      containers:
+      - name: express-app
+        # Run this image
+        image: yasin005/demo-app-for-learning-kubernetes:01
+
+
+
+  
