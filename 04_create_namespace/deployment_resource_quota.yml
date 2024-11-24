@@ -1,0 +1,57 @@
+
+
+
+# <---------- step to follow: --------------> 
+
+# step01: we need create namespace
+# step02: we need to 1st allocate resourceQuta in resourceQuota yml file
+# step03: Then we will run deployment yml file 
+# step04: see resources `kubectl get resourcequota -n amar-khelar-math`
+# step05: go to minikube dashboard->namespace->amar-khelar-math from there we can also see resources
+# here: requests: (ন্যূনতম রিসোর্স প্রয়োজনীয়তা)
+# limits: (সর্বোচ্চ রিসোর্স ব্যবহারের সীমা)
+
+# ---------------------------------------------
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: amar-resource-quota
+  namespace: amar-khelar-math # Match the namespace of your deployment
+spec:
+  hard:
+    requests.cpu: "1"       # Total CPU request across all pods cannot exceed 1 core
+    requests.memory: "2Gi"  # Total memory request cannot exceed 2Gi
+    limits.cpu: "2"         # Total CPU limit across all pods cannot exceed 2 cores
+    limits.memory: "4Gi"    # Total memory limit cannot exceed 4Gi
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: amar-app
+  namespace: amar-khelar-math # এখানে Namespace উল্লেখ করো
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: amar-app
+  template:
+    metadata:
+      labels:
+        app: amar-app
+    spec:
+      containers:
+      - name: amar-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory : "1Gi"
+            cpu :  "500m" # 1/2 of a core
+          limits:
+            memory: "2Gi"
+            cpu: "1"  #1 core
+
+
+
