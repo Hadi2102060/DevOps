@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email App</title>
+</head>
+<body>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <button type="button" onclick="submitEmail()">Submit</button>
+
+    <!-- ----------------------- Stored emails --------------------------- -->
+    <h2>Stored Emails:</h2>
+    <ul id="li"></ul>
+
+    <script>
+        // Function to fetch all emails from the FastAPI backend
+        async function fetchEmails() {
+            try {
+                // Fetch data from the FastAPI /get/email endpoint
+                const response = await fetch('http://127.0.0.1:8000/get/email');
+                const data = await response.json();
+                
+                // Log the received data to check its structure (useful for debugging)
+                console.log("Received data:", data);
+
+                // Get the email list container (ul element)
+                const emailList = document.getElementById('li');
+                
+                // Clear the list before updating
+                emailList.innerHTML = '';
+
+                // Loop through the emails and append them to the list
+                data.email.forEach(email => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = email;
+                    emailList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Error fetching emails:', error);
+            }
+        }
+
+        // Call fetchEmails to load the stored emails when the page loads
+        window.onload = fetchEmails;
+
+        // Submit email function (you can expand this to submit the email to the backend)
+        async function submitEmail() {
+            const emailInput = document.getElementById('email');
+            const email = emailInput.value;
+            
+            // Validate email
+            if (!email) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            try {
+                // Send the email to the FastAPI backend (assuming you've set up the endpoint correctly)
+                const response = await fetch('http://127.0.0.1:8000/add/mail', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email }),
+                });
+
+                const data = await response.json();
+                
+                // Log the server's response (for debugging)
+                console.log('Email submitted:', data);
+
+                // Reload the emails after submission
+                fetchEmails();
+
+                // Clear the email input field after submission
+                emailInput.value = '';
+            } catch (error) {
+                console.error('Error submitting email:', error);
+            }
+        }
+    </script>
+</body>
+</html>

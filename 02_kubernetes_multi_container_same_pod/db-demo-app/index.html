@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Email App</title>
+</head>
+
+<body>
+    <h1>Email App</h1>
+    <!-- Remove form tag and use input fields with button for submit -->
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <button type="button" onclick="submitEmail()">Submit</button>
+
+    <hr>
+
+    <h2>Stored Emails:</h2>
+    <ul id="emails"></ul>
+
+    <script>
+        // Fetch emails from the backend and display them
+        async function fetchEmails() {
+            try {
+                const response = await fetch('/emails');
+                const emails = await response.json();
+                const emailsList = document.getElementById('emails');
+                emailsList.innerHTML = ''; // Clear existing emails
+                emails.forEach(email => {
+                    const li = document.createElement('li');
+                    li.textContent = email.email;
+                    emailsList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Error fetching emails:', error);
+            }
+        }
+
+        // Call fetchEmails to load stored emails when the page loads
+        window.onload = fetchEmails;
+
+        // Submit the email to the backend
+        async function submitEmail() {
+            const emailInput = document.getElementById('email');
+            const email = emailInput.value;
+
+            // Validate email
+            if (!email) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            try {
+                // Send the email to the FastAPI backend (POST request)
+                const response = await fetch('/add-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email }),
+                });
+
+                const data = await response.json();
+
+                // Log the server's response for debugging
+                console.log('Email submitted:', data);
+
+                // Reload the stored emails after submitting
+                fetchEmails();
+
+                // Clear the email input field after submission
+                emailInput.value = '';
+
+            } catch (error) {
+                console.error('Error submitting email:', error);
+            }
+        }
+    </script>
+</body>
+
+</html>
