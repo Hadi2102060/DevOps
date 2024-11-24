@@ -1,0 +1,37 @@
+
+
+# <---------- step to follow: --------------> 
+
+# step01: fist we need to create namespace named with:-> amar-khelar-math
+# step02: `kubectl create namespace amar-khelar-math`
+# step03: see all the namespace:-> `kubectl get namespaces`
+# step04: see all the pods inside a namespce:-> `kubectl get pods -n amar-khelar-math`
+# step05: apply the Depoyment in the amar-khelar-math namespaec:-> `kubectl apply -f deployment_namespace.yml`
+# from minikube dashboard in namespaces section we can see the name of our namespace "amar-khelar-math"
+# step06: delete namespace:-> `kubectl delete namespace amar-khelar-math`
+
+# ---------------------------------------------
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: amar-app
+  namespace: amar-khelar-math # এখানে Namespace উল্লেখ করো
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: amar-app
+  template:
+    metadata:
+      labels:
+        app: amar-app
+    spec:
+      containers:
+      - name: amar-container
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+
+
