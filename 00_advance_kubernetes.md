@@ -561,6 +561,8 @@ spec:
             cpu: "1"           # Limiting CPU usage to 1 core
 ```
 
+`Note: recourse limit দেওয়ার আগে, আমাদের আগে ResourceQuota.yml file apply করতে হবে । see, 04_create_namespace `
+
 
 <br>
 <br>
@@ -629,5 +631,156 @@ spec:
 
 এটি নিশ্চিত করে যে Pod-এর IP পরিবর্তিত হলেও, **Service** ব্যবহার করে অ্যাপ্লিকেশন সর্বদা অ্যাক্সেসযোগ্য থাকবে।
 
+
+
+<br>
+<br>
+<br>
+
+
+#  `#1.6 Manual Scheduling in kubernetes:  `
+
+<br>
+<br>
+<br>
+
+
+### **Manual Scheduling in Kubernetes with Labels and Selectors in Deployment YAML File**
+
+Kubernetes-এ **manual scheduling** ব্যবহার করে আপনি নির্দিষ্ট **Node**-এ **Pod** বা **Deployment** চালাতে পারেন। আমরা **labels** এবং **selectors** ব্যবহার করে এটি কার্যকর করতে পারি। এবার আমরা আলোচনা করবো কীভাবে এটি Deployment-এ প্রয়োগ করা যায় এবং বিস্তারিতভাবে ব্যাখ্যা করবো।
+
+---
+
+### **Labels এবং Selectors-এর কাজ**
+1. **Labels**:  
+   - এটি একটি **key-value pair**, যা Kubernetes এর resources (যেমন Pod, Node, Deployment) কে চিহ্নিত করতে ব্যবহার করা হয়।  
+   - উদাহরণ: 
+     ```yaml
+     labels:
+       nodeType: high-memory
+     ```
+
+2. **Selectors**:  
+   - এটি এমন একটি শর্ত যা **labels**-কে ফিল্টার করার জন্য ব্যবহৃত হয়।  
+   - **nodeSelector** এর মাধ্যমে Pod শুধুমাত্র নির্দিষ্ট লেবেলযুক্ত Node-এ চলবে।  
+   - উদাহরণ:
+     ```yaml
+     nodeSelector:
+       nodeType: high-memory
+     ```
+
+---
+
+### **কেন Manual Scheduling দরকার?**
+- নির্দিষ্ট **Node**-এ গুরুত্বপূর্ণ অ্যাপ্লিকেশন স্থাপন করতে।
+- **Resource optimization** নিশ্চিত করতে।
+- **Production** এবং **development** পরিবেশ আলাদা রাখতে।
+
+---
+
+### **Deployment YAML File-এ Manual Scheduling**
+
+#### **ধাপ-১: Node-এ Label যোগ করুন**
+প্রথমে আপনার Node-এ একটি label সেট করুন।  
+```bash
+kubectl label nodes <node-name> nodeType=high-memory
+```
+
+#### **ধাপ-২: Deployment YAML File লিখুন**
+এখন একটি Deployment তৈরি করুন এবং এতে **nodeSelector** ব্যবহার করুন।
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+      nodeSelector:
+        nodeType: high-memory  # শুধুমাত্র high-memory লেবেল সহ Node-এ যাবে
+```
+
+---
+
+### **উদাহরণ বিশ্লেষণ**
+
+1. **nodeSelector:**
+   - এই অংশটি Deployment-কে নির্দেশ দেয় যে এটি শুধুমাত্র **nodeType=high-memory** লেবেলযুক্ত Node-এ Pods তৈরি করবে।
+   
+2. **replicas:**
+   - `replicas: 3` এর অর্থ, Kubernetes একই Node-এ বা বিভিন্ন Nodes-এ ৩টি Pod তৈরি করবে।
+
+3. **labels:**
+   - Pod-গুলোর মধ্যে `app: my-app` লেবেল থাকবে, যা সেগুলোকে সহজে চিহ্নিত করতে সাহায্য করে।
+
+---
+
+### **ধাপ-৩: YAML ফাইল প্রয়োগ করুন**
+Deployment ফাইলটি অ্যাপ্লাই করুন:
+```bash
+kubectl apply -f deployment.yml
+```
+
+#### **Pod-গুলো কোন Node-এ চলেছে তা দেখুন:**
+```bash
+kubectl get pods -o wide
+```
+
+---
+
+### **Labels এবং Selectors-এর সুবিধা**
+1. নির্দিষ্ট কাজের জন্য নির্দিষ্ট Node বরাদ্দ করতে সাহায্য করে।  
+2. Resources ব্যবস্থাপনা সহজ হয়।  
+3. Production এবং Development পরিবেশ আলাদা রাখা যায়।  
+
+---
+
+### **Deployment YAML File-এর সম্পূর্ণ উদাহরণ**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-scheduled-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-container
+        image: nginx
+      nodeSelector:
+        environment: production
+```
+
+#### **কীভাবে কাজ করবে:**
+1. **nodeSelector** এর মাধ্যমে Pod-গুলো শুধুমাত্র `environment: production` লেবেলযুক্ত Node-এ চলবে।
+2. দুইটি Pod তৈরি হবে, কারণ `replicas: 2` সেট করা আছে।
+
+---
+
+### **সারসংক্ষেপ**
+- **Labels** এবং **nodeSelector** ব্যবহার করে Deployment YAML ফাইলের মাধ্যমে নির্দিষ্ট Node-এ Pods চালানো যায়।  
+- এটি **resource optimization** এবং **application isolation** নিশ্চিত করতে সাহায্য করে।  
+- **kubectl label nodes** কমান্ড দিয়ে Node-এ label যোগ করতে হয় এবং Deployment ফাইলে **nodeSelector** দিয়ে সেটি প্রয়োগ করা হয়।  
+
+**এই পদ্ধতি Kubernetes-এ workload scheduling আরও নিয়ন্ত্রিত ও কার্যকর করে তোলে।**
 
 
