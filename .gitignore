@@ -1,4 +1,6 @@
-
+# Editor directories
+.obsidian
+.vscode
 
 # ignore the database file: 
 db 
