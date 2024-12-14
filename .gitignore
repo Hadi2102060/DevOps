@@ -2,6 +2,10 @@
 .obsidian
 .vscode
 
+# ignore environment files
+.env
+venv
+
 # ignore the database file: 
 db 
 02_kubernetes_multi_container_same_pod/db-demo-app/node_modules
