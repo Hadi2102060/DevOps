@@ -9,6 +9,6 @@ node_modules
 .cph
 __pycache__
 
-# ignore the database file: 
-db 
+# ignore the database file:
+db
 
